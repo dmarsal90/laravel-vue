@@ -48,11 +48,12 @@ class CompanyController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
+     * @return CompanyResource
      */
-    public function update(Request $request, Company $company)
+    public function update(CompanyRequest $request, Company $company)
     {
-        //
+        $company->update($request->validated());
+        return new CompanyResource($company);
     }
 
     /**
