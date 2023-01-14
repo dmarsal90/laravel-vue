@@ -5,7 +5,7 @@ const routes= [
     {
         path: "/dashboard",
         name: "companies.index",
-        comment: CompaniesIndex
+        component: CompaniesIndex
     }
 ];
 export default createRouter({
