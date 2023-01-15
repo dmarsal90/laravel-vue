@@ -1,65 +1,73 @@
 <template>
-    <div class="min-w-full overflow-hidden overflow-x-auto align-middle sm:rounded-md">
-        <table class="min-w-full border divide-y divide-gray-200">
-            <thead>
-            <tr>
-                <th class="px-6 py-3 bg-gray-50">
-                    <span
-                        class="text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase">Name</span>
-                </th>
-                <th class="px-6 py-3 bg-gray-50">
-                    <span
-                        class="text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase">Email</span>
-                </th>
-                <th class="px-6 py-3 bg-gray-50">
-                    <span
-                        class="text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase">Address</span>
-                </th>
-                <th class="px-6 py-3 bg-gray-50">
-                    <span
-                        class="text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase">Website</span>
-                </th>
-            </tr>
-            </thead>
+    <div class="overflow-x-auto">
+        <div
+            class=" bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
+            <div class="w-full lg:w-5/6">
+                <div class="bg-white shadow-md rounded my-6">
+                    <table class="min-w-max  table-auto">
+                        <thead>
+                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                            <th scope="col" class="py-3 px-6 text-left">
+                                <span>Name</span>
+                            </th>
+                            <th scope="col" class="py-3 px-6 text-left">
+                                <span>Email</span>
+                            </th>
+                            <th scope="col" class="py-3 px-6 text-left">
+                                <span>Address</span>
+                            </th>
+                            <th scope="col" class="py-3 px-6 text-left">
+                                <span>Website</span>
+                            </th>
+                        </tr>
+                        </thead>
 
-            <tbody class="bg-white divide-y divide-gray-200 divide-solid">
-            <template v-for="item in companies" :key="item.id">
-                <tr class="bg-white">
-                    <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                        {{ item.name }}
-                    </td>
-                    <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                        {{ item.email }}
-                    </td>
-                    <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                        {{ item.address }}
-                    </td>
-                    <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                        {{ item.website }}
-                    </td>
-                </tr>
-            </template>
-            </tbody>
-        </table>
+                        <tbody class="text-gray-600 text-sm font-light">
+
+                        <template v-for="item in companies" :key="item.id">
+                            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                <td class="py-3 px-6 text-left whitespace-nowrap">
+                                    {{ item.name }}
+                                </td>
+                                <td class="py-3 px-6 text-left whitespace-nowrap">
+                                    {{ item.email }}
+                                </td>
+                                <td class="py-3 px-6 text-left whitespace-nowrap">
+                                    {{ item.address }}
+                                </td>
+                                <td class="py-3 px-6 text-left whitespace-nowrap">
+                                    {{ item.website }}
+                                </td>
+                                <td class="px-6 py-4 text-sm leading-5 text-center text-gray-900 whitespace-no-wrap">
+                                    <button @click="deleteCompany(item.id)"
+                                            class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">
+                                        Delete</button>
+                                </td>
+                            </tr>
+                        </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
-<script>
-import useCompanies from "../composables/companies";
-import {onMounted} from "vue";
+<script setup>
+import useCompanies from '../composables/companies'
+import {onMounted} from 'vue';
 
-export default {
-    name: "CompaniesIndex",
-    setup() {
-        const {companies, getCompanies} = useCompanies();
-        onMounted(getCompanies);
-        return {
-            companies
-        }
+const { companies, getCompanies, destroyCompany } = useCompanies()
+
+const deleteCompany = async (id) => {
+    if (!window.confirm('You sure?')) {
+        return
     }
+
+    await destroyCompany(id)
+    await getCompanies()
 }
+
+
+onMounted(getCompanies)
 </script>
-
-<style scoped>
-
-</style>
