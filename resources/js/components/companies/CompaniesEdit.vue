@@ -8,14 +8,14 @@
         </div>
     </div>
 
-    <form class="space-y-6" @submit.prevent="saveCompany">
+    <form class="space-y-6" v-on:submit.prevent="saveCompany">
         <div class="space-y-4 rounded-md shadow-sm">
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                 <div class="mt-1">
                     <input type="text" name="name" id="name"
                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                           v-model="form.name">
+                           v-model="company.name">
                 </div>
             </div>
 
@@ -24,7 +24,7 @@
                 <div class="mt-1">
                     <input type="text" name="email" id="email"
                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                           v-model="form.email">
+                           v-model="company.email">
                 </div>
             </div>
 
@@ -33,7 +33,7 @@
                 <div class="mt-1">
                     <input type="text" name="address" id="address"
                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                           v-model="form.address">
+                           v-model="company.address">
                 </div>
             </div>
 
@@ -42,14 +42,14 @@
                 <div class="mt-1">
                     <input type="text" name="website" id="website"
                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                           v-model="form.website">
+                           v-model="company.website">
                 </div>
             </div>
         </div>
 
         <button type="submit"
                 class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md ring-gray-300 hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring disabled:opacity-25">
-            Create
+            Save
         </button>
         <router-link :to="{ name: 'companies.index' }"
                      class="inline-flex items-center px-4 py-2 ml-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md ring-gray-300 hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring disabled:opacity-25">
@@ -60,18 +60,19 @@
 
 <script setup>
 import useCompanies from '../composables/companies'
-import {reactive} from 'vue'
+import {onMounted} from 'vue';
 
-const form = reactive({
-    name: '',
-    email: '',
-    address: '',
-    website: ''
+const {errors, company, updateCompany, getCompany} = useCompanies()
+const props = defineProps({
+    id: {
+        required: true,
+        type: String
+    }
 })
 
-const {errors, storeCompany} = useCompanies()
+onMounted(() => getCompany(props.id))
 
 const saveCompany = async () => {
-    await storeCompany({...form})
+    await updateCompany(props.id)
 }
 </script>
