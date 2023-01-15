@@ -14,6 +14,12 @@ const routes = [
         name: 'companies.create',
         component: CompaniesCreate
     },
+    {
+        path: '/companies/:id/edit',
+        name: 'companies.edit',
+        component: CompaniesEdit,
+        props: true
+    },
 ];
 
 export default createRouter({
