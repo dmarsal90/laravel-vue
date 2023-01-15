@@ -44,22 +44,11 @@
     </div>
 </template>
 
-<script>
-import useCompanies from "../composables/companies";
-import {onMounted} from "vue";
+<script setup>
+import useCompanies from '../composables/companies'
+import { onMounted } from 'vue';
 
-export default {
-    name: "CompaniesIndex",
-    setup() {
-        const {companies, getCompanies} = useCompanies();
-        onMounted(getCompanies);
-        return {
-            companies
-        }
-    }
-}
+const { companies, getCompanies } = useCompanies()
+
+onMounted(getCompanies)
 </script>
-
-<style scoped>
-
-</style>
