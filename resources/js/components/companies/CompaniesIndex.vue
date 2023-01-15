@@ -19,6 +19,9 @@
                             <th scope="col" class="py-3 px-6 text-left">
                                 <span>Website</span>
                             </th>
+                            <th scope="col" class="py-3 px-6 text-left">
+
+                            </th>
                         </tr>
                         </thead>
 
@@ -61,7 +64,9 @@ const { companies, getCompanies, destroyCompany } = useCompanies()
 
 const deleteCompany = async (id) => {
     if (!window.confirm('You sure?')) {
-        return
+        return{
+            companies
+        }
     }
 
     await destroyCompany(id)
